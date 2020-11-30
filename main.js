@@ -1,9 +1,14 @@
-let size = 16;
-let numOfSquares = size * size;
+let size = 16; //number of pixels per side
+let numOfSquares = size * size; //total pixels
 const canvasContainer = document.querySelector("#canvas-container");
 
-generateCanvas();
+/* toggle between these two for rainbow colors vs greyscale */
+let colorPicker = pickGreyscale;
+//let colorPicker = pickRandomColors
+/* -------------------------------------------------------- */
 
+
+generateCanvas();
 
 
 //canvas generation
@@ -14,44 +19,80 @@ function generateCanvas() {
         canvasContainer.appendChild(squareDiv);
     }
 
-    //formatting the canvas
+    //CSS for formatting the canvas
     let gridFormat = `repeat(${size},1fr)`
     canvasContainer.style.gridTemplateColumns = gridFormat;
     canvasContainer.style.gridTemplateRows = gridFormat;
 
 
-//drawing listener
-let pixels = document.querySelectorAll('.pixels');
-pixels.forEach(element => {
-    element.addEventListener('mouseenter', (e) => {
-        console.log(element);
-        element.classList.remove('unpainted');
-        element.classList.add('painted');
-    }
-    )
-});
+    //drawing listener
+    let pixels = document.querySelectorAll('.pixels');
+
+    pixels.forEach(element => {
+        element.addEventListener('mouseenter', (e) => {
+            if (!element.classList.contains('painted')) {
+                element.classList.replace('unpainted', 'painted');
+            }
+            let bgColor = element.style.background;
+            if (bgColor == '') {
+                let lightness = 63; //7*9 is 63, so there will be room for 9 more decrements of 7
+                colorPicker(element, lightness);
+            }
+            else {
+                let lightness = parseInt(element.style.getPropertyValue("--lightness"));
+                lightness = lightness - 7; //decrementing by 7 to turn color to black in 9 steps
+                colorPicker(element, lightness);
+            }
+        }
+        )
+    });
 
 }
 
-//reset wipe canvas
-function rmPaint() {
+
+/* ...there should be a better way to implement these two functions... */
+//enable this for a monochrome pallet
+function pickGreyscale(element, lightness) {
+    //setting lightness as a property of each pixel div
+    element.style.setProperty("--lightness", lightness);
+    //using 0 in the saturation slot gets rid of the color
+    element.style.background = `hsl(${getRndInteger(0, 361)},0%,${lightness}%)`;
+}
+
+//enable this for a rainbow pallet
+function pickRandomColors(element, lightness) {
+    element.style.setProperty("--lightness", lightness);
+    element.style.background = `hsl(${getRndInteger(0, 361)},${getRndInteger(0, 101)}%,${lightness}%)`;
+}
+/* ------------------------------------------------------------------- */
+
+
+//resize then wipe canvas
+function resize() {
     getNewSize();
+    rmPaint();
+}
 
+//wipe canvas
+function rmPaint() {
+    //loop through and remove all divs before adding them all back
     canvasContainer.querySelectorAll('.pixels').forEach(element => element.remove());
-
     generateCanvas();
-
 }
 
 //prompt user for new canvas size
 function getNewSize() {
-    size = parseInt(prompt("How large would you like your etch-a-sketch to be?", '1-100'));
-    console.log(size)
-    while (!(typeof size === 'number' && size > 0 && size < 101)) {
-        console.log(size)
-
-        size = parseInt(prompt("Please enter a number between 1 and 100.", '1-100'));
+    //input defaults to the previously selected size for user convenience 
+    let newSize = parseInt(prompt("How large would you like your etch-a-sketch to be?", size));
+    //input validation
+    while (!(typeof newSize === 'number' && newSize > 0 && newSize < 101)) {
+        newSize = parseInt(prompt("Please enter a number between 1 and 100.", size));
     }
-
+    size = newSize
     numOfSquares = size * size;
+}
+
+//random int gen from w3school
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
 }
