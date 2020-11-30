@@ -9,21 +9,24 @@
 </head>
 
 <body>
-    <div id=etch-cover>
-        <div id=canvas-container></div>
-        <div id=bottom-etch>        
-            <button id=clear onclick=rmPaint()>
-                Clear
-            </button>
-            <span id=magic class='label flavour'>MAGIC</span>
-            <span class=label>Web A Sketch&nbsp</span>
-            <span id=screen class='label flavour'>SCREEN</span>
 
-            <button id=resize onclick=resize()>
-                Resize
-            </button>
+    <div id=etch-container>
+        <div id=etch-cover>
+            <div id=canvas-container></div>
+            <div id=bottom-etch>
+                <button id=clear onclick=shakeScreen()>
+                    Clear
+                </button>
+                <span id=magic class='label flavour'>MAGIC</span>
+                <span class=label>Web A Sketch&nbsp</span>
+                <span id=screen class='label flavour'>SCREEN</span>
+
+                <button id=resize onclick=resize()>
+                    Resize
+                </button>
+            </div>
+
         </div>
-
     </div>
     <script src="main.js"></script>
 </body>
