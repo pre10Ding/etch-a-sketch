@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Yellowtail&display=swap');
 
+body {
+    background-image: url("/images/tableBG.jpg");
+    background-repeat: repeat;
+    background-position: top left; 
+    background-size:1800px;
+}
 
 #etch-cover{
     position: relative;
@@ -8,7 +14,7 @@
     grid-row-gap: 20px;
     background:red;
     background-image: radial-gradient(farthest-corner at 65% 60%,#660000,#990000,#990000,#b30000,#ff0000);
-    box-shadow: 5px 10px 20px grey;
+    box-shadow: 3px 5px 10px rgb(65, 43, 11);
     border:outset 2px #b30000;
     padding:50px 50px 25px 50px;
     border-radius: 10px;
