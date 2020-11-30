@@ -1,0 +1,15 @@
+#canvas-container{
+   display: grid;
+   width: 800px;
+   height: 800px;
+   grid-template-columns: repeat(100, 1fr);
+   grid-template-rows: repeat(100, 1fr);
+}
+
+.unpainted {
+    background: yellow;
+}
+
+.painted{
+    background: blue;
+}
