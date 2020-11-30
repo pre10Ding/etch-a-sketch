@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Etch-A-Sketch</title>
-  <meta charset="UTF-8"/>
-  <link rel="stylesheet" type="text/css" href="reset.css">
-  <link rel="stylesheet" type="text/css" href="main.css">
+    <title>Etch-A-Sketch</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="reset.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
 </head>
+
 <body>
-    <button onclick=rmPaint()>
-        Reset
-    </button>
-    <div id=canvas-container></div>
+    <div id=etch-cover>
+        <div id=canvas-container></div>
+        <div id=bottom-etch>        
+            <button id=clear onclick=rmPaint()>
+                Clear
+            </button>
+            <span id=magic class='label flavour'>MAGIC</span>
+            <span class=label>Web A Sketch&nbsp</span>
+            <span id=screen class='label flavour'>SCREEN</span>
 
+            <button id=resize onclick=resize()>
+                Resize
+            </button>
+        </div>
 
+    </div>
     <script src="main.js"></script>
 </body>
+
 </html>
