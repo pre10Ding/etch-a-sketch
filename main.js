@@ -10,7 +10,6 @@ let colorPicker = pickGreyscale;
 
 generateCanvas();
 
-
 //canvas generation
 function generateCanvas() {
     for (let i = 0; i < numOfSquares; i++) {
@@ -56,7 +55,7 @@ function pickGreyscale(element, lightness) {
     //setting lightness as a property of each pixel div
     element.style.setProperty("--lightness", lightness);
     //using 0 in the saturation slot gets rid of the color
-    element.style.background = `hsl(${getRndInteger(0, 361)},0%,${lightness}%)`;
+    element.style.background = `hsl(360,0%,${lightness}%)`;
 }
 
 //enable this for a rainbow pallet
@@ -85,6 +84,7 @@ function getNewSize() {
     //input defaults to the previously selected size for user convenience 
     let newSize = parseInt(prompt("How large would you like your etch-a-sketch to be?", size));
     //input validation
+
     while (!(typeof newSize === 'number' && newSize > 0 && newSize < 101)) {
         newSize = parseInt(prompt("Please enter a number between 1 and 100.", size));
     }
@@ -95,4 +95,50 @@ function getNewSize() {
 //random int gen from w3school
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function shakeScreen() {
+    const etchCover = document.querySelector('#etch-cover');
+    let rightBound = 20,
+        currentPos = 0,
+        numShook = 0,
+        speed = 5;
+
+    speed *= -1; //invert it because it will be inverted back on the first loop
+    let animateFrames = setInterval(function () {
+        if (currentPos >= rightBound || currentPos <= 0) {
+            speed *= -1;
+            numShook++;
+
+            let pixels = document.querySelectorAll('.pixels');
+
+            pixels.forEach(element => {
+    
+                let lightness = parseInt(element.style.getPropertyValue("--lightness"));
+                if (lightness < 63) {
+                    lightness = lightness + 8; //decrementing by 7 to turn color to black in 9 steps
+                    colorPicker(element, lightness);
+                } else {
+                    element.style.background='';
+                }
+    
+    
+    
+            });
+
+        };
+
+        if (numShook > 10) {
+            clearInterval(animateFrames);
+        }
+
+
+
+
+
+        currentPos += speed;
+
+        etchCover.style.left = `${currentPos}px`;
+
+    }, 20)
 }
