@@ -2,6 +2,7 @@
 
 
 #etch-cover{
+    position: relative;
     display:grid;
     width:fit-content;
     grid-row-gap: 20px;
